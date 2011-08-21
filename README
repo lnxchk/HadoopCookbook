@@ -1,0 +1,50 @@
+
+# Hadoop Cookbook
+
+* this makes a mess of the existing Debian / Ubuntu stuff in the current community cookbook. I'll fix that back in soon.
+
+* includes support for RHEL and CentOS.  Any other RPM-based platform could be added, I just don't have the version numbers for what would work with the current hadoop releases.
+
+* sets up hadoop based on the ops suggestions in "Hadoop The Definitive Guide" by Tom White (ISBN: 978-1-449-38973-4) and what we're doing at Admeld
+
+* includes several specific recipes for explicit resource management
+
+## Default recipe
+
+* requires the java cookbook
+
+* sets up the dependencies for the Cloudera RPM repository, the .repo file and the RPM keys
+
+* installs the base hadoop package, assuming hadoop-0.20
+
+## Namenode recipe
+
+* installs the namenode and secondarynamenode packages
+
+* *will eventually also set up the services*
+
+## Jobtracker recipe
+
+* installs the jobtracker package
+
+* *will eventually also set up the service*
+
+## Worker recipe
+
+* installs the tasktracker and datanode packages, as hadoop datanodes should always also be task nodes
+
+* *will eventually also set up the services*
+
+## Hadoop_user recipe
+
+* creates a hadoop user to own the files, hold the ssh keys for communicating in the cluster, and run the java processes
+
+## work to do
+
+* setting up the services so they can be called by chef runs when config files change
+
+* adding config files and templates that would necessarily need to be configured to the specific cluster, like hdfs-site.xml and mapred-site.xml
+
+* potentially add a data bag to allow for locking down of the specific hadoop version 
+
+* possibly add the ssh keys for the hadoop user, at least include instructions on how-to and possibly commented skeleton code
