@@ -1,4 +1,3 @@
-
 # Hadoop Cookbook
 
 * this makes a mess of the existing Debian / Ubuntu stuff in the current community cookbook. I'll fix that back in soon.
