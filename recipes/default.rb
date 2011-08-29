@@ -1,4 +1,4 @@
-#
+
 # Cookbook Name:: hadoop
 # Recipe:: default
 #
@@ -36,23 +36,10 @@ when "ubuntu", "debian"
   execute "curl -s http://archive.cloudera.com/debian/archive.key | apt-key add -" do
     not_if "apt-key export 'Cloudera Apt Repository'"
   end
+ 
+  package "hadoop"
 
 when "centos", "redhat"
-
-  execute "yum_clean_all" do
-    command "yum clean all"
-    action :nothing
-  end
-
-  execute "import_key_rhel5" do
-    command "rpm --import http://archive.cloudera.com/redhat/cdh/RPM-GPG-KEY-cloudera"
-    action :nothing
-  end
-
-  execute "import_key_rhel6" do
-    command "rpm --import http://archive.cloudera.com/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera"
-    action :nothing
-  end
 
   # find the platform version number. support 5 and 6
   version = node['platform_version'].to_i
@@ -60,29 +47,29 @@ when "centos", "redhat"
 
   # version 5
   if version == 5 
-    # repo file
-    cookbook_file "/etc/yum.repos.d/cloudera-cdh3.repo" do
-      source "cloudera_rhel5.repo"
-      mode 0644
-      owner "root"
-      group "root"
-      notifies :run, "execute[yum_clean_al]", :immediately
-      notifies :run, "execute[import_key_rhel5]", :immediately
-    end
+    key_url = "http://archive.cloudera.com/redhat/cdh/RPM-GPG-KEY-cloudera"
+    mirror_url = "http://archive.cloudera.com/redhat/cdh/3/mirrors"
   end
 
   # version 6
   if version == 6
-    # repo file
-    cookbook_file "/etc/yum.repos.d/cloudera-cdh3.repo" do
-      source "cloudera_rhel6.repo"
-      mode 0644
-      owner "root"
-      group "root"
-      notifies :run, "execute[yum_clean_all]", :immediately
-      notifies :run, "execute[import_key_rhel6]", :immediately
-    end
+    key_url = "http://archive.cloudera.com/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera"
+    mirror_url = "http://archive.cloudera.com/redhat/6/x86_64/cdh/3/mirrors"
   end
+
+  # yum repository stuff at https://github.com/opscode/cookbooks/tree/master/yum
+    yum_key "RPM-GPG-KEY-cloudera" do
+      url key_url
+      action :add
+    end
+
+    yum_repository "cloudera-cdh3" do
+      repo_name "cloudera-cdh3"
+      description "Cloudera Distribution for Hadoop, Version 3"
+      url mirror_url
+      mirrorlist true
+      action :add
+    end
 
   package "hadoop-0.20" do
     action :install
@@ -90,5 +77,4 @@ when "centos", "redhat"
 end
 
 
-#package "hadoop"
 
