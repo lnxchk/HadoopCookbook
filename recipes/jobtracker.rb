@@ -22,3 +22,8 @@ include_recipe "hadoop::default"
 package "hadoop-0.20-jobtracker" do
   action :install 
 end
+
+service "hadoop-0.20-jobtracker" do
+  action [:nothing]
+  supports :restart => true, :start => true, :stop => true
+end

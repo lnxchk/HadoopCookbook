@@ -1,0 +1,4 @@
+# Masters file configured by Chef. DO NOT EDIT MANUALLY
+<% @slaves.each do |slave| %>
+<%= slave["fqdn"] %>
+<% end %>

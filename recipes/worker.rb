@@ -23,7 +23,28 @@ package "hadoop-0.20-tasktracker" do
   action :install
 end
 
+service "hadoop-0.20-tasktracker" do
+  action [:nothing]
+  supports :restart => true, :start => true, :stop => true
+end
+
 package "hadoop-0.20-datanode" do
   action :install
 end
+
+service "hadoop-0.20-datanode" do
+  action [:nothing]
+  supports :restart => true, :start => true, :stop => true
+end
+
+# ssh config - hadoop user has to get around the cluster
+
+# necessary conf files
+
+# core-site.xml
+
+# hdfs-site.xml
+
+# mapred-site.xml
+
 

@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+
+  <property>
+    <name>mapred.job.tracker</name>
+    <value><%= @site_master %>:8021</value>
+  </property>
+
+  <property>
+    <name>mapred.task.timeout</name>
+    <value>300000</value>
+  </property>
+
+  <property>
+    <name>mapred.child.java.opts</name>
+    <value><%= @child_java_opts %></value>
+  </property>
+
+  <property>
+    <name>mapred.tasktracker.map.tasks.maximum</name>
+    <value><%= @map_tasks_max %></value>
+  </property>
+
+  <property>
+    <name>mapred.tasktracker.reduce.tasks.maximum</name>
+    <value><%= @reduce_tasks_max %></value>
+  </property>
+
+  <property>
+    <name>mapred.output.compression.type</name>
+    <value>BLOCK</value>
+  </property>
+
+  <property>
+    <name>mapred.output.compress</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>io.file.buffer.size</name>
+    <value>65536</value>
+  </property>
+
+  <property>
+    <name>mapred.compress.map.output</name>
+    <value>true</value>
+  </property>
+
+  <property>
+    <name>io.sort.mb</name>
+    <value>200</value>
+  </property>
+  
+  <property>
+    <name>mapred.reduce.parallel.copies</name>
+    <value>10</value>
+  </property>
+  
+  <property>
+    <name>mapred.jobtracker.taskScheduler</name>
+    <value>org.apache.hadoop.mapred.FairScheduler</value>
+  </property>
+  
+  <property>
+    <name>mapred.child.ulimit</name>
+    <value>5312512</value>
+  </property>
+  
+</configuration>
+

@@ -1,0 +1,4 @@
+# Masters file configured by Chef. DO NOT EDIT MANUALLY
+<% @masters.each do |master| %>
+<%= master["fqdn"] %>
+<% end %>

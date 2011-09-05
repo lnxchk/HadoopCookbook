@@ -2,7 +2,7 @@
 # Cookbook Name:: hadoop
 # Recipe:: hadoop_user
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2011, linuxchick.org
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,11 +28,13 @@
 
 include_recipe "hadoop::default"
 
-# user
+# coincides with the group added by the packages
 group "hadoop" do
-  gid 10000
+  gid 496
 end
 
+# user
+# there are mapred and hdfs users added by the packages
 user "hadoop" do
   uid 10000
   gid "hadoop"

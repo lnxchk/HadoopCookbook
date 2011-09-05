@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+  <property>
+    <name>fs.default.name</name>
+    <value>hdfs://<%= @site_master %>:8020</value>
+  </property>
+
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/var/lib/hadoop-0.20/cache</value>
+  </property>
+
+  <property>
+    <name>io.compression.codecs</name>
+    <value>org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.BZip2Codec</value>
+  </property>
+
+  <property>
+    <name>fs.trash.interval</name>
+    <value>1440</value>
+  </property>
+</configuration>
+
