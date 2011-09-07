@@ -76,5 +76,41 @@ when "centos", "redhat"
   end
 end
 
+###
+#
+#  Templates
+#
+#  see README_templates.rdoc for more info
+#
+###
 
+site_master = data_bag_item('hadoop', 'hadoop')["site_master"]
+child_java_opts = data_bag_item('hadoop', 'hadoop')["child_java_opts"]
+map_tasks_max = data_bag_item('hadoop', 'hadoop')["map_tasks_max"]
+reduce_tasks_max = data_bag_item('hadoop', 'hadoop')["reduce_tasks_max"]
+
+
+template "/usr/lib/hadoop/conf/core-site.xml" do
+  source "core-site_xml.erb"
+  owner "hadoop"
+  group "hadoop"
+  mode 0644
+  variables(
+    :site_master => site_master
+  )
+end
+
+template "/opt/hadoop/conf/mapred-site.xml" do
+  source "mapred-site_xml.erb"
+  owner "hadoop"
+  group "hadoop"
+  mode 00644
+  variables(
+    :site_master => site_master,
+    :child_java_opts => child_java_opts,
+    :map_tasks_max => map_tasks_max,
+    :reduce_tasks_max => reduce_tasks_max
+  )
+  # notifies
+end
 
