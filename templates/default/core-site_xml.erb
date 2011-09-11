@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-
+<!-- 
+    Exhaustive documentation for the settings that can be included in this file 
+    is found at the Apache Hadoop website:
+    http://hadoop.apache.org/common/docs/current/core-default.html
+-->
 <configuration>
   <property>
     <name>fs.default.name</name>
@@ -20,6 +24,12 @@
   <property>
     <name>fs.trash.interval</name>
     <value>1440</value>
+  </property>
+
+  <property>
+    <name>fs.checkpoint.period</name>
+    <value>3600</value>
+    <description>The number of seconds between two periodic checkpoints.</description>
   </property>
 </configuration>
 

@@ -83,11 +83,32 @@ end
 #  see README_templates.rdoc for more info
 #
 ###
+Chef::Log.info("our env is #{node.chef_environment}")
 
-site_master = data_bag_item('hadoop', 'hadoop')["site_master"]
-child_java_opts = data_bag_item('hadoop', 'hadoop')["child_java_opts"]
-map_tasks_max = data_bag_item('hadoop', 'hadoop')["map_tasks_max"]
-reduce_tasks_max = data_bag_item('hadoop', 'hadoop')["reduce_tasks_max"]
+if node[:hadoop][node.chef_environment][:site_master].nil?
+  site_master = node[:hadoop][:_default][:site_master]
+else
+  site_master = node[:hadoop][node.chef_environment][:site_master]
+end
+
+if node[:hadoop][node.chef_environment][:child_java_opts].nil?
+  child_java_opts = node[:hadoop][:_default][:child_java_opts]
+else
+  child_java_opts = node[:hadoop][node.chef_environment][:child_java_opts]
+end
+
+if node[:hadoop][node.chef_environment][:map_tasks_max].nil?
+  map_tasks_max = node[:hadoop][:_default][:map_tasks_max]
+else 
+  map_tasks_max = node[:hadoop][node.chef_environment][:map_tasks_max]
+end
+
+if node[:hadoop][node.chef_environment][:reduce_tasks_max].nil?
+  reduce_tasks_max = node[:hadoop][:_default][:reduce_tasks_max]
+else
+  reduce_tasks_max = node[:hadoop][node.chef_environment][:reduce_tasks_max]
+end
+
 
 
 template "/usr/lib/hadoop/conf/core-site.xml" do
@@ -100,7 +121,7 @@ template "/usr/lib/hadoop/conf/core-site.xml" do
   )
 end
 
-template "/opt/hadoop/conf/mapred-site.xml" do
+template "/usr/lib/hadoop/conf/mapred-site.xml" do
   source "mapred-site_xml.erb"
   owner "hadoop"
   group "hadoop"
@@ -114,3 +135,9 @@ template "/opt/hadoop/conf/mapred-site.xml" do
   # notifies
 end
 
+template "/usr/lib/hadoop/conf/hdfs-site.xml" do
+  source "hdfs-site_xml.erb"
+  owner "hadoop"
+  group "hadoop"
+  mode 00644
+end

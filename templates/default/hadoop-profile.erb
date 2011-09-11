@@ -1,0 +1,7 @@
+export JAVA_HOME=<%= @java_home %>
+
+export HADOOP_HOME=<%= @hadoop_home %>
+
+export PATH=$PATH:${JAVA_HOME}/bin:${HADOOP_HOME}/bin
+
+export PS1="[\u@\h \W]$ "

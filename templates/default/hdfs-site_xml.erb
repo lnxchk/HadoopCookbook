@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!-- 
 
+    Exhaustive documentation on all the settings that can be included in this file
+    can be found at the Apache Hadoop website.
+    http://hadoop.apache.org/common/docs/current/hdfs-default.html
+-->
 <configuration>
 
   <property>
@@ -10,11 +15,24 @@
   
   <property>
     <name>dfs.data.dir</name>
-    <value></value>
+    <value>/usr/lib/hadoop/hdfs/data</value>
+    <description>Determines where on the local filesystem an DFS data node should store its blocks. If this is a comma-delimited list of directories, then data will be stored in all named directories, typically on different devices. Directories that do not exist are ignored. </description>
   </property>
 
   <property>
     <name>fs.checkpoint.period</name>
     <value>900</value>
+  </property>
+
+  <property>
+    <name>dfs.hosts</name>
+    <value></value>
+    <description>Names a file that contains a list of hosts that are permitted to connect to the namenode. The full pathname of the file must be specified. If the value is empty, all hosts are permitted.</description>
+  </property>
+
+  <property>
+    <name>dfs.hosts.exclude</name>
+    <value></value>
+    <description>Names a file that contains a list of hosts that are not permitted to connect to the namenode. The full pathname of the file must be specified. If the value is empty, no hosts are excluded.</description>
   </property>
 </configuration>

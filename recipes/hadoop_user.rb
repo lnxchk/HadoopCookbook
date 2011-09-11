@@ -52,7 +52,35 @@ directory "/usr/lib/hadoop-0.20/.ssh" do
 end
 
 execute "change ownership" do
-  command "chown -R hadoop:hadoop /usr/lib/hadoop-0.20"
+  command "chown -R hadoop:hadoop /usr/lib/hadoop-0.20; chmod g+w /usr/lib/hadoop-0.20"
   action :run
+end
+
+Chef::Log.info("our env is #{node.chef_environment}")
+
+# attributes based on environments. Could this be cleaner? 
+
+if node[:hadoop][node.chef_environment][:java_home].nil?
+  java_home = node[:hadoop][:_default][:java_home]
+else
+  java_home = node[:hadoop][node.chef_environment][:java_home]
+end
+
+if node[:hadoop][node.chef_environment][:hadoop_home].nil?
+  hadoop_home = node[:hadoop][:_default][:hadoop_home]
+else
+  hadoop_home = node[:hadoop][node.chef_environment][:hadoop_home]
+end
+
+
+template "/usr/lib/hadoop-0.20/.profile" do
+  source "hadoop-profile.erb"
+  owner "hadoop"
+  group "hadoop"
+  mode 00644
+  variables(
+    :java_home => java_home,
+    :hadoop_home => hadoop_home
+  )
 end
 
