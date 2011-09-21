@@ -3,6 +3,7 @@
 # Recipe:: worker
 #
 # Copyright 2009, Opscode, Inc.
+# Copyright 2011, linuxchick.org
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,20 +20,20 @@
 
 include_recipe "hadoop::default"
 
-package "hadoop-0.20-tasktracker" do
+package "hadoop-#{hadoop_version}-tasktracker" do
   action :install
 end
 
-service "hadoop-0.20-tasktracker" do
+service "hadoop-#{hadoop_version}-tasktracker" do
   action [:nothing]
   supports :restart => true, :start => true, :stop => true
 end
 
-package "hadoop-0.20-datanode" do
+package "hadoop-#{hadoop_version}-datanode" do
   action :install
 end
 
-service "hadoop-0.20-datanode" do
+service "hadoop-#{hadoop_version}-datanode" do
   action [:nothing]
   supports :restart => true, :start => true, :stop => true
 end

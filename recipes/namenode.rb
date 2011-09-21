@@ -3,6 +3,7 @@
 # Recipe:: namenode
 #
 # Copyright 2009, Opscode, Inc.
+# Copyright 2011, linuxchick.org
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,21 +19,22 @@
 #
 
 include_recipe "hadoop::default"
+hadoop_version = data_bag_item('hadoop', 'hadoop')["hadoop_version"]  || "0.20"
 
-package "hadoop-0.20-namenode" do
+package "hadoop-#{hadoop_version}-namenode" do
   action :install
 end
 
-service "hadoop-0.20-namenode" do
+service "hadoop-#{hadoop_version}-namenode" do
   action [:nothing]
   supports :restart => true, :start => true, :stop => true
 end
 
-package "hadoop-0.20-secondarynamenode" do
+package "hadoop-#{hadoop_version}-secondarynamenode" do
   action :install
 end
 
-service "hadoop-0.20-secondarynamenode" do
+service "hadoop-#{hadoop_version}-secondarynamenode" do
   action [:nothing]
   supports :restart => true, :start => true, :stop => true
 end

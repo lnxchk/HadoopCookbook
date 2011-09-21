@@ -3,6 +3,7 @@
 # Recipe:: default
 #
 # Copyright 2009, Opscode, Inc.
+# Copyright 2011, linuxchick.org
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,6 +42,16 @@ when "ubuntu", "debian"
 
 when "centos", "redhat"
 
+#  hadoop_version = (defined?(data_bag_item('hadoop', 'hadoop')["hadoop_version"])).nil? ? "0.20" : data_bag_item('hadoop','hadoop')["hadoop_version"]
+
+
+#  hadoop_version = (data_bag_item('hadoop', 'hadoop')["hadoop_version"] rescue "0.20")
+
+
+  # suggested to also try a fetch here.
+  hadoop_version = data_bag_item('hadoop', 'hadoop')["hadoop_version"]  || "0.20"
+
+  Chef::Log.info("hadoop version is #{hadoop_version}")
   # find the platform version number. support 5 and 6
   version = node['platform_version'].to_i
   Chef::Log.info("the platform_version is #{version}")
@@ -71,7 +82,7 @@ when "centos", "redhat"
       action :add
     end
 
-  package "hadoop-0.20" do
+  package "hadoop-#{hadoop_version}" do
     action :install
   end
 end
@@ -132,7 +143,6 @@ template "/usr/lib/hadoop/conf/mapred-site.xml" do
     :map_tasks_max => map_tasks_max,
     :reduce_tasks_max => reduce_tasks_max
   )
-  # notifies
 end
 
 template "/usr/lib/hadoop/conf/hdfs-site.xml" do

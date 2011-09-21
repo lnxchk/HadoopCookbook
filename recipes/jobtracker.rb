@@ -3,6 +3,7 @@
 # Recipe:: jobtracker
 #
 # Copyright 2009, Opscode, Inc.
+# Copyright 2011, linuxchick.org
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,11 +20,13 @@
 
 include_recipe "hadoop::default"
 
-package "hadoop-0.20-jobtracker" do
+hadoop_version = data_bag_item('hadoop', 'hadoop')["hadoop_version"]  || "0.20"
+
+package "hadoop-#{hadoop_version}-jobtracker" do
   action :install 
 end
 
-service "hadoop-0.20-jobtracker" do
+service "hadoop-#{hadoop_version}-jobtracker" do
   action [:nothing]
   supports :restart => true, :start => true, :stop => true
 end

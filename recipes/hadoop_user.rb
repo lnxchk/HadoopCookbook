@@ -38,12 +38,12 @@ end
 user "hadoop" do
   uid 10000
   gid "hadoop"
-  home "/usr/lib/hadoop-0.20"
+  home "/usr/lib/hadoop"
   shell "/bin/bash"
   comment "Hadoop User"
 end
 
-directory "/usr/lib/hadoop-0.20/.ssh" do
+directory "/usr/lib/hadoop/.ssh" do
   mode 00700
   owner "hadoop"
   group "hadoop"
@@ -52,7 +52,7 @@ directory "/usr/lib/hadoop-0.20/.ssh" do
 end
 
 execute "change ownership" do
-  command "chown -R hadoop:hadoop /usr/lib/hadoop-0.20; chmod g+w /usr/lib/hadoop-0.20"
+  command "chown -R hadoop:hadoop /usr/lib/hadoop; chmod g+w /usr/lib/hadoop"
   action :run
 end
 
@@ -73,7 +73,7 @@ else
 end
 
 
-template "/usr/lib/hadoop-0.20/.profile" do
+template "/usr/lib/hadoop/.profile" do
   source "hadoop-profile.erb"
   owner "hadoop"
   group "hadoop"
