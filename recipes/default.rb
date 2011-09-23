@@ -1,4 +1,3 @@
-
 # Cookbook Name:: hadoop
 # Recipe:: default
 #
@@ -41,12 +40,6 @@ when "ubuntu", "debian"
   package "hadoop"
 
 when "centos", "redhat"
-
-#  hadoop_version = (defined?(data_bag_item('hadoop', 'hadoop')["hadoop_version"])).nil? ? "0.20" : data_bag_item('hadoop','hadoop')["hadoop_version"]
-
-
-#  hadoop_version = (data_bag_item('hadoop', 'hadoop')["hadoop_version"] rescue "0.20")
-
 
   # suggested to also try a fetch here.
   hadoop_version = data_bag_item('hadoop', 'hadoop')["hadoop_version"]  || "0.20"
@@ -96,6 +89,8 @@ end
 ###
 Chef::Log.info("our env is #{node.chef_environment}")
 
+
+# TODO: this could use some clean up using the syntax above for the databag
 if node[:hadoop][node.chef_environment][:site_master].nil?
   site_master = node[:hadoop][:_default][:site_master]
 else

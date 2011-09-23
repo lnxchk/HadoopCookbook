@@ -26,7 +26,7 @@
 #
 ##
 
-include_recipe "hadoop::default"
+#include_recipe "hadoop::default"
 
 # coincides with the group added by the packages
 group "hadoop" do
