@@ -58,19 +58,10 @@ end
 
 Chef::Log.info("our env is #{node.chef_environment}")
 
-# attributes based on environments. Could this be cleaner? 
+# attributes based on environments. 
+java_home = node[:hadoop][node.chef_environment][:java_home] || node[:hadoop][:_default][:java_home]
 
-if node[:hadoop][node.chef_environment][:java_home].nil?
-  java_home = node[:hadoop][:_default][:java_home]
-else
-  java_home = node[:hadoop][node.chef_environment][:java_home]
-end
-
-if node[:hadoop][node.chef_environment][:hadoop_home].nil?
-  hadoop_home = node[:hadoop][:_default][:hadoop_home]
-else
-  hadoop_home = node[:hadoop][node.chef_environment][:hadoop_home]
-end
+hadoop_home = node[:hadoop][node.chef_environment][:hadoop_home] || node[:hadoop][:_default][:hadoop_home]
 
 
 template "/usr/lib/hadoop/.profile" do

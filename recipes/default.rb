@@ -41,8 +41,12 @@ when "ubuntu", "debian"
 
 when "centos", "redhat"
 
-  # suggested to also try a fetch here.
-  hadoop_version = data_bag_item('hadoop', 'hadoop')["hadoop_version"]  || "0.20"
+  #
+  # use the attributes to lock in the hadoop version.
+  # 
+  # see README_attributes.md for more info
+  #
+  hadoop_version = node[:hadoop][node.chef_environment][:hadoop_version] || "0.20"
 
   Chef::Log.info("hadoop version is #{hadoop_version}")
   # find the platform version number. support 5 and 6
@@ -84,38 +88,21 @@ end
 #
 #  Templates
 #
-#  see README_templates.rdoc for more info
+#  see README_templates.md for more info
 #
 ###
 Chef::Log.info("our env is #{node.chef_environment}")
 
 
-# TODO: this could use some clean up using the syntax above for the databag
-if node[:hadoop][node.chef_environment][:site_master].nil?
-  site_master = node[:hadoop][:_default][:site_master]
-else
-  site_master = node[:hadoop][node.chef_environment][:site_master]
-end
-
-if node[:hadoop][node.chef_environment][:child_java_opts].nil?
-  child_java_opts = node[:hadoop][:_default][:child_java_opts]
-else
-  child_java_opts = node[:hadoop][node.chef_environment][:child_java_opts]
-end
-
-if node[:hadoop][node.chef_environment][:map_tasks_max].nil?
-  map_tasks_max = node[:hadoop][:_default][:map_tasks_max]
-else 
-  map_tasks_max = node[:hadoop][node.chef_environment][:map_tasks_max]
-end
-
-if node[:hadoop][node.chef_environment][:reduce_tasks_max].nil?
-  reduce_tasks_max = node[:hadoop][:_default][:reduce_tasks_max]
-else
-  reduce_tasks_max = node[:hadoop][node.chef_environment][:reduce_tasks_max]
-end
-
-
+# 
+# each cluster using this cookbook should have its specific attributes set in the 
+# attributes files.  Defaults are used if there are no attributes set for the
+# node's current environment.
+#
+site_master = node[:hadoop][node.chef_environment][:site_master] || node[:hadoop][:_default][:site_master]
+child_java_opts = node[:hadoop][node.chef_environment][:child_java_opts] || node[:hadoop][:_default][:child_java_opts]
+map_tasks_max = node[:hadoop][node.chef_environment][:map_tasks_max] || node[:hadoop][:_default][:map_tasks_max]
+reduce_tasks_max = node[:hadoop][node.chef_environment][:reduce_tasks_max] || node[:hadoop][:_default][:reduce_tasks_max]
 
 template "/usr/lib/hadoop/conf/core-site.xml" do
   source "core-site_xml.erb"

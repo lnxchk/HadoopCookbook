@@ -20,7 +20,7 @@
 
 include_recipe "hadoop::default"
 
-hadoop_version = data_bag_item('hadoop', 'hadoop')["hadoop_version"]  || "0.20"
+hadoop_version = node[:hadoop][node.chef_environment][:hadoop_version]  || "0.20"
 
 package "hadoop-#{hadoop_version}-jobtracker" do
   action :install 

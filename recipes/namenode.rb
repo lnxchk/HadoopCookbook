@@ -19,7 +19,7 @@
 #
 
 include_recipe "hadoop::default"
-hadoop_version = data_bag_item('hadoop', 'hadoop')["hadoop_version"]  || "0.20"
+hadoop_version = node[:hadoop][node.chef_environment][:hadoop_version]  || "0.20"
 
 package "hadoop-#{hadoop_version}-namenode" do
   action :install
@@ -43,10 +43,11 @@ end
 
 key  = "recipe"
 type = "node"
-node_query = "hadoop\\:\\:namenode"
-Chef::Log.info("searching for #{type} #{key}:#{node_query}")
+rec_query = "hadoop\\:\\:namenode"
+env = node.chef_environment
+Chef::Log.info("searching for #{type} #{key}:#{rec_query} in environment #{env}")
 
-master_nodes = search(type.to_sym, "#{key}:#{node_query}")
+master_nodes = search(type.to_sym, "#{key}:#{rec_query} AND chef_environment:#{env}")
 Chef::Log.info("the site masters are #{master_nodes}")
 
 template "/usr/lib/hadoop/conf/masters" do
@@ -62,9 +63,9 @@ end
 # slaves file
 
 node_query = "hadoop\\:\\:worker" 
-Chef::Log.info("searching for #{type} #{key}:#{node_query}")
+Chef::Log.info("searching for #{type} #{key}:#{node_query} in environment #{env}")
 
-slave_nodes = search(type.to_sym, "#{key}:#{node_query}")
+slave_nodes = search(type.to_sym, "#{key}:#{node_query} AND chef_environment:#{env}")
 Chef::Log.info("site slaves are #{slave_nodes}")
 
 template "/usr/lib/hadoop/conf/slaves" do

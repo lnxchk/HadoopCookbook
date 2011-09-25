@@ -1,7 +1,6 @@
 # Cookbook Name:: hadoop
 # Recipe:: apache_hadoop
 #
-# Copyright 2009, Opscode, Inc.
 # Copyright 2011, linuxchick.org
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,18 +21,27 @@
 # most likely usecase is as a replacement for the ::default recipe
 
 include_recipe "java"
-#include_recipe "hadoop::hadoop_user"
 
 # 1. set the mirror url based on proximity
 #    http://www.apache.org/dyn/closer.cgi/hadoop/core/
 
 mirror_url = "http://www.trieuvan.com/apache/hadoop/common/stable"
 
+# set this var as an attribute. may be helpful for geographically
+# diverse clusters using same cookbook. uncomment this line:
+# mirror_url = node[:hadoop][node.chef_environment][:mirror_url]
+
 # this is the version number that the tar ball unwraps do
 hadoop_version = "hadoop-0.20.203.0"
 
+# set this var as an attribute, uncomment this line:
+# hadoop_version = node[:hadoop][node.chef_environment][:hadoop_version]
+
 # this is essentially the version, but as it is annotated in the filenames
 hadoop_filename = "hadoop-0.20.203.0rc1"
+
+# set this var as an attribute, uncomment this line:
+# hadoop_filename = node[:hadoop][node.chef_environment][:hadoop_filename]
 
 hadoop_url = "#{mirror_url}/#{hadoop_filename}.tar.gz"
 checksum_url = "#{mirror_url}/#{hadoop_filename}.tar.gz.mds"
@@ -59,7 +67,7 @@ end
 bash "check download" do
   cwd "/tmp"
   code <<-EOH
-    gpg --print-mds hadoop-0.20.203.0rc1.tar.gz > new.mds
+    gpg --print-mds #{hadoop_filename}.tar.gz > new.mds
     diff #{hadoop_filename}.tar.gz.mds new.mds
     # TODO want to test $?
   EOH
