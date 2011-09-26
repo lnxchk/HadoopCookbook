@@ -84,6 +84,7 @@ when "centos", "redhat"
   end
 end
 
+include_recipe "hadoop::hadoop_user"
 ###
 #
 #  Templates
@@ -133,3 +134,10 @@ template "/usr/lib/hadoop/conf/hdfs-site.xml" do
   group "hadoop"
   mode 00644
 end
+
+execute "chown" do
+  command "chown -R hadoop:hadoop ~hadoop/*"
+  action :run
+end
+
+

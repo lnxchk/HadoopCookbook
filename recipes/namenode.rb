@@ -18,7 +18,6 @@
 # limitations under the License.
 #
 
-include_recipe "hadoop::default"
 hadoop_version = node[:hadoop][node.chef_environment][:hadoop_version]  || "0.20"
 
 package "hadoop-#{hadoop_version}-namenode" do
