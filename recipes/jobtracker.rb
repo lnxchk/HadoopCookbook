@@ -29,3 +29,7 @@ service "hadoop-#{hadoop_version}-jobtracker" do
   action [:nothing]
   supports :restart => true, :start => true, :stop => true
 end
+
+# for global hadoop config files, see the default recipe
+
+# for hadoop user set up, see the hadoop_user recipe

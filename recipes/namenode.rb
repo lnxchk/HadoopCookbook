@@ -38,6 +38,17 @@ service "hadoop-#{hadoop_version}-secondarynamenode" do
   supports :restart => true, :start => true, :stop => true
 end
 
+
+#
+# MASTERS AND SLAVES FILES
+#
+# masters and slaves files are used only by the central management
+# scripts on the namenode. they are not required for workers to join
+# the cluster. security for the cluster can be accomplished in 
+# the config files in ${HADOOP_HOME}/conf. see the hadoop
+# documentation for more info
+#
+
 # masters file
 
 key  = "recipe"

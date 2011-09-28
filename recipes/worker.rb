@@ -38,14 +38,7 @@ service "hadoop-#{hadoop_version}-datanode" do
   supports :restart => true, :start => true, :stop => true
 end
 
-# ssh config - hadoop user has to get around the cluster
+# for global hadoop config files, see the default recipe
 
-# necessary conf files
-
-# core-site.xml
-
-# hdfs-site.xml
-
-# mapred-site.xml
-
+# for advanced user set up, see the hadoop_user recipe
 

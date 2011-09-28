@@ -70,6 +70,9 @@ bash "check download" do
     gpg --print-mds #{hadoop_filename}.tar.gz > new.mds
     diff #{hadoop_filename}.tar.gz.mds new.mds
     # TODO want to test $?
+    # if the diff exits 1, there is a problem, and we should exit
+    # clean up temp file
+    rm -f new.mds    
   EOH
   not_if { File.exists?("/usr/lib/#{hadoop_version}") }
 end
@@ -80,6 +83,8 @@ bash "install apache_hadoop" do
   code <<-EOH
   tar zxf /tmp/#{hadoop_filename}.tar.gz
   ln -s #{hadoop_version} hadoop
+  # clean up the files in /tmp that we downloaded
+  rm -f /tmp/#{hadoop_filename}.tar.gz
   EOH
   not_if { File.exists?("/usr/lib/hadoop") }
 end
@@ -94,6 +99,4 @@ bash "chown to hadoop" do
   EOH
 end
   
-
-
 # fin

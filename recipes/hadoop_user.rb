@@ -20,11 +20,10 @@
 ##
 #
 # optional recipe to create a hadoop user
-#  * packages include mapred and hdfs users,
-#    but practice is usually to run all as
-#    single hadoop account 
+#  * packages include mapred and hdfs users
 #
 ##
+
 
 
 # coincides with the group added by the packages
@@ -54,6 +53,28 @@ execute "change ownership" do
   command "chown -R hadoop:hadoop /usr/lib/hadoop; chmod g+w /usr/lib/hadoop"
   action :run
 end
+
+
+#
+# HADOOP USER KEYS
+#
+# if you want to manage the hadoop processes centrally from the 
+# namenodes, the scripts available in ${HADOOP_HOME}/bin require
+# the hadoop user to have ssh access to all boxes.
+
+#cookbook_file "/usr/lib/hadoop/.ssh/id_rsa.pub" do
+#  source "hadoop_pub_key"
+#  mode 0400
+#  owner "hadoop"
+#  group "hadoop"
+#end
+
+#cookbook_file "/usr/lib/hadoop/.ssh/id_rsa" do
+#  source "hadoop_priv_key"
+#  mode 0400
+#  owner "hadoop"
+#  group "hadoop"
+#end
 
 Chef::Log.info("our env is #{node.chef_environment}")
 
