@@ -2,7 +2,7 @@
 
 This cookbook is a work in progress.  It's essentially the second version I've put together, after learning a bit about what sorts of bad assumptions I was making with our clusters and how they had been set up.  I still have some things on my radar, like monitoring and quotas on the datanodes.
 
-The previous version of the community hadoop cookbook provided only basic support, and only on debian / ubuntu systems.  The pieces I have added expand the features of the cookbook and more granular management of the various components of a hadoop cluster.  I work exclusively in rpm-based systems, so the debian support still sits at where the original cookbook was.
+The changes I've made here are exclusively for rpm-based systems.  I will likely offer these changes to the maintainer of the HadoopCluster cookbook to expand that cookbook, since it currently only supports debian and ubuntu.
 
 The templates are not exhaustively complete config files, but I have included links to the hadoop documentation for all options.  From a functional standpoint, the main components are here, and would hopefully only require minor changes to get running in any given environment.
 
@@ -12,7 +12,7 @@ I have my own list of open issues in github for this project.  Feel free to comm
 
 Some additional points:
 
-* this makes a mess of the existing Debian / Ubuntu stuff in the current community cookbook. I'll fix that back in soon, or if anyone wants to work on it, i take pull requests. :D
+* this makes a mess of the existing Debian / Ubuntu stuff in the current community cookbook. the HadoopCluster cookbook is similar to this one and only supports Debian and Ubuntu.
 
 * includes support for RHEL and CentOS.  Any other RPM-based platform could be added, I just don't have the version numbers for what would work with the current hadoop releases.
 
@@ -64,4 +64,4 @@ Some additional points:
 
 * dealing with the ssh keys for the hadoop user.  there is some skeleton code there in the user recipe now.
 
-* debian / ubuntu WAT.  I don't really know anything anymore about how debian and debian-like systems are set up, so assume that only the default recipe works on those systems right now, since that support was all that was in the original community version of this cookbook.
+* debian / ubuntu WAT.  see note above. 
