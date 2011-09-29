@@ -20,6 +20,9 @@
 
 hadoop_version = node[:hadoop][node.chef_environment][:hadoop_version]  || "0.20"
 
+hadoop_home = node[:hadoop][node.chef_environment][:hadoop_home] || node[:hadoop][:_default][:hadoop_home]
+java_home = node[:hadoop][node.chef_environment][:java_home] || node[:hadoop][:_default][:java_home]
+
 package "hadoop-#{hadoop_version}-namenode" do
   action :install
 end
@@ -66,7 +69,7 @@ template "/usr/lib/hadoop/conf/masters" do
   group "hadoop"
   mode 0644
   variables(
-    :masters => master_nodes
+    :masters => master_nodes.uniq
   )
 end
 
@@ -84,8 +87,32 @@ template "/usr/lib/hadoop/conf/slaves" do
   group "hadoop"
   mode 0644
   variables(
-    :slaves => slave_nodes
+    :slaves => slave_nodes.uniq
   )
 end
 
+# current cloudera packages use this naming convention for start scripts
+# replacing the packaged ones with customized ones that work a little better
+# right out of the gate
 
+#template "/etc/init.d/hadoop-0.20-namenode" do
+#  source "hadoop-namenode_init.erb"
+#  owner "root"
+#  group "root"
+#  mode 0755
+#  variables(
+#    :java_home => java_home,
+#    :hadoop_home => hadoop_home
+#  )
+#end
+
+#template "/etc/init.d/hadoop-0.20-secondarynamenode" do
+#  source "hadoop-secondarynamenode_init.erb"
+#  owner "root"
+#  group "root"
+#  mode 0755
+#  variables(
+#    :java_home => java_home,
+#    :hadoop_home => hadoop_home
+#  )
+#end

@@ -18,9 +18,19 @@
   </property>
   
   <property>
+    <name>dfs.name.dir</name>
+    <value>/usr/lib/hadoop/dfs/name</value>
+  </property>
+
+  <property>
     <name>dfs.data.dir</name>
-    <value>/usr/lib/hadoop/hdfs/data</value>
+    <value>/usr/lib/hadoop/dfs/data</value>
     <description>Determines where on the local filesystem an DFS data node should store its blocks. If this is a comma-delimited list of directories, then data will be stored in all named directories, typically on different devices. Directories that do not exist are ignored. </description>
+  </property>
+
+  <property>
+    <name>fs.checkpoint.dir</name>
+    <value>/usr/lib/hadoop/dfs/namesecondary</value>
   </property>
 
   <property>

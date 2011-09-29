@@ -104,6 +104,7 @@ site_master = node[:hadoop][node.chef_environment][:site_master] || node[:hadoop
 child_java_opts = node[:hadoop][node.chef_environment][:child_java_opts] || node[:hadoop][:_default][:child_java_opts]
 map_tasks_max = node[:hadoop][node.chef_environment][:map_tasks_max] || node[:hadoop][:_default][:map_tasks_max]
 reduce_tasks_max = node[:hadoop][node.chef_environment][:reduce_tasks_max] || node[:hadoop][:_default][:reduce_tasks_max]
+java_home = node[:hadoop][node.chef_environment][:java_home] || node[:hadoop][:_default][:java_home]
 
 template "/usr/lib/hadoop/conf/core-site.xml" do
   source "core-site_xml.erb"
@@ -135,8 +136,18 @@ template "/usr/lib/hadoop/conf/hdfs-site.xml" do
   mode 00644
 end
 
+template "/etc/default/hadoop-0.20" do
+  source "etc_default_hadoop.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables(
+    :java_home => java_home
+  )
+end
+
 execute "chown" do
-  command "chown -R hadoop:hadoop ~hadoop/*"
+  command "chown hadoop:hadoop ~hadoop; chown -R hadoop:hadoop ~hadoop/*"
   action :run
 end
 

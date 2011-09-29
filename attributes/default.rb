@@ -1,5 +1,5 @@
 # basic defaults:
-default[:hadoop][:_default][:site_master]         = "ip-10-194-143-34.ec2.internal"
+default[:hadoop][:_default][:site_master]         = "domU-12-31-39-16-DA-B5"
 default[:hadoop][:_default][:child_java_opts]     = "-Xmx256M"
 default[:hadoop][:_default][:map_tasks_max]       = "1"
 default[:hadoop][:_default][:reduce_tasks_max]    = "1"    
